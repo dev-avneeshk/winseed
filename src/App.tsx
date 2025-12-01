@@ -37,10 +37,7 @@ const TOKENS = {
 // ============================================================================
 const LoadingScreen = memo(({ progress }) => {
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.6 }}
+    <div
       style={{
         position: 'fixed',
         inset: 0,
@@ -53,9 +50,7 @@ const LoadingScreen = memo(({ progress }) => {
         fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif',
       }}
     >
-      <motion.div
-        animate={{ scale: [1, 1.04, 1], opacity: [1, 0.9, 1] }}
-        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+      <div
         style={{
           fontSize: 'clamp(56px, 13vw, 140px)',
           fontWeight: 400,
@@ -72,7 +67,7 @@ const LoadingScreen = memo(({ progress }) => {
           fontWeight: 400,
           filter: 'drop-shadow(0 0 40px rgba(126, 246, 161, 0.5))',
         }}>Seeds</span>
-      </motion.div>
+      </div>
 
       <div style={{
         width: 'clamp(200px, 40vw, 400px)',
@@ -82,21 +77,18 @@ const LoadingScreen = memo(({ progress }) => {
         overflow: 'hidden',
         marginBottom: '24px',
       }}>
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${Math.min(progress, 100)}%` }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+        <div
           style={{
             height: '100%',
             background: `linear-gradient(90deg, ${TOKENS.colors.accent}, rgba(126, 246, 161, 0.8))`,
             borderRadius: '2px',
+            width: `${Math.min(progress, 100)}%`,
+            transition: 'width 0.3s ease-out',
           }}
         />
       </div>
 
-      <motion.div
-        animate={{ opacity: [0.4, 1, 0.4], scale: [0.95, 1, 0.95] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
+      <div
         style={{
           color: TOKENS.colors.textSecondary,
           fontSize: '16px',
@@ -105,14 +97,12 @@ const LoadingScreen = memo(({ progress }) => {
         }}
       >
         Loading Quality Seeds…
-      </motion.div>
+      </div>
 
       <div style={{ display: 'flex', gap: '8px', marginTop: '32px' }}>
         {[0, 1, 2].map((i) => (
-          <motion.div
+          <div
             key={i}
-            animate={{ scale: [1, 1.4, 1], opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
             style={{
               width: '12px',
               height: '12px',
@@ -122,7 +112,7 @@ const LoadingScreen = memo(({ progress }) => {
           />
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 });
 
@@ -130,15 +120,9 @@ const LoadingScreen = memo(({ progress }) => {
 // FADE IN ON SCROLL WRAPPER
 // ============================================================================
 const FadeInOnScroll = ({ children, delay = 0 }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 24 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: '-80px' }}
-    transition={{ duration: 0.6, ease: 'easeOut', delay }}
-    style={{ willChange: 'opacity, transform' }}
-  >
+  <div style={{ opacity: 1 }}>
     {children}
-  </motion.div>
+  </div>
 );
 
 // ============================================================================
@@ -378,52 +362,8 @@ const pathVariants = {
 };
 
 const BackgroundLines = memo(() => {
-  const paths = useMemo(() => [
-    "M720 450C720 450 742.459 440.315 755.249 425.626C768.039 410.937 778.88 418.741 789.478 401.499C800.076 384.258 817.06 389.269 826.741 380.436C836.423 371.603 851.957 364.826 863.182 356.242C874.408 347.657 877.993 342.678 898.867 333.214C919.741 323.75 923.618 319.88 934.875 310.177C946.133 300.474 960.784 300.837 970.584 287.701C980.384 274.564 993.538 273.334 1004.85 263.087C1016.15 252.84 1026.42 250.801 1038.22 242.1C1050.02 233.399 1065.19 230.418 1074.63 215.721C1084.07 201.024 1085.49 209.128 1112.65 194.884C1139.8 180.64 1132.49 178.205 1146.43 170.636C1160.37 163.066 1168.97 158.613 1181.46 147.982C1193.95 137.35 1191.16 131.382 1217.55 125.645C1243.93 119.907 1234.19 118.899 1254.53 100.846C1274.86 82.7922 1275.12 92.8914 1290.37 76.09C1305.62 59.2886 1313.91 62.1868 1323.19 56.7536C1332.48 51.3204 1347.93 42.8082 1361.95 32.1468C1375.96 21.4855 1374.06 25.168 1397.08 10.1863C1420.09 -4.79534 1421.41 -3.16992 1431.52 -15.0078",
-    "M720 450C720 450 741.044 435.759 753.062 410.636C765.079 385.514 770.541 386.148 782.73 370.489C794.918 354.83 799.378 353.188 811.338 332.597C823.298 312.005 825.578 306.419 843.707 295.493C861.837 284.568 856.194 273.248 877.376 256.48C898.558 239.713 887.536 227.843 909.648 214.958C931.759 202.073 925.133 188.092 941.063 177.621C956.994 167.151 952.171 154.663 971.197 135.041C990.222 115.418 990.785 109.375 999.488 96.1291C1008.19 82.8827 1011.4 82.2181 1032.65 61.8861C1053.9 41.5541 1045.74 48.0281 1064.01 19.5798C1082.29 -8.86844 1077.21 -3.89415 1093.7 -19.66C1110.18 -35.4258 1105.91 -46.1146 1127.68 -60.2834C1149.46 -74.4523 1144.37 -72.1024 1154.18 -97.6802C1163.99 -123.258 1165.6 -111.332 1186.21 -135.809C1206.81 -160.285 1203.29 -160.861 1220.31 -177.633C1237.33 -194.406 1236.97 -204.408 1250.42 -214.196",
-    "M720 450C720 450 712.336 437.768 690.248 407.156C668.161 376.544 672.543 394.253 665.951 365.784C659.358 337.316 647.903 347.461 636.929 323.197C625.956 298.933 626.831 303.639 609.939 281.01C593.048 258.381 598.7 255.282 582.342 242.504C565.985 229.726 566.053 217.66 559.169 197.116C552.284 176.572 549.348 171.846 529.347 156.529C509.345 141.211 522.053 134.054 505.192 115.653C488.33 97.2527 482.671 82.5627 473.599 70.7833C464.527 59.0039 464.784 50.2169 447 32.0721C429.215 13.9272 436.29 0.858563 423.534 -12.6868C410.777 -26.2322 407.424 -44.0808 394.364 -56.4916C381.303 -68.9024 373.709 -72.6804 365.591 -96.1992C357.473 -119.718 358.364 -111.509 338.222 -136.495C318.08 -161.481 322.797 -149.499 315.32 -181.761C307.843 -214.023 294.563 -202.561 285.795 -223.25C277.026 -243.94 275.199 -244.055 258.602 -263.871",
-  ], []);
-
-  const colors = useMemo(() => ["#7EF6A1", "#5FD689", "#7EF6A1"], []);
-
-  return (
-    <motion.svg
-      viewBox="0 0 1440 900"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      style={{
-        position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        opacity: 0.4,
-      }}
-    >
-      {paths.map((path, idx) => (
-        <motion.path
-          key={`path-${idx}`}
-          d={path}
-          stroke={colors[idx % colors.length]}
-          strokeWidth="2.3"
-          strokeLinecap="round"
-          variants={pathVariants}
-          initial="initial"
-          animate="animate"
-          transition={{
-            duration: 10,
-            ease: "linear",
-            repeat: Infinity,
-            repeatType: "loop",
-            delay: Math.floor(Math.random() * 10),
-            repeatDelay: Math.floor(Math.random() * 10 + 2),
-          }}
-        />
-      ))}
-    </motion.svg>
-  );
+  // Disabled for performance - SVG animations causing main thread blocking
+  return null;
 });
 
 // Easing and helper functions
@@ -456,7 +396,7 @@ const vegetables = [
     description:
       'Our carrots are carefully bred for consistency, vibrant colour, excellent root shape, and adaptability to diverse growing conditions.',
     image:
-      'https://images.stockcake.com/public/1/7/0/17076ac9-fb1c-4a79-ac17-8d02644ea0e8_large/earth-s-orange-treasure-stockcake.jpg',
+      'https://images.stockcake.com/public/1/7/0/17076ac9-fb1c-4a79-ac17-8d02644ea0e8_medium/earth-s-orange-treasure-stockcake.jpg?w=800&q=75',
     icon: '🥕',
   },
   {
@@ -464,7 +404,7 @@ const vegetables = [
     description:
       'High-performing beetroot hybrids selected for colour, uniform roots, and strong performance in key processing and fresh markets.',
     image:
-      'https://images.stockcake.com/public/6/b/a/6ba4e0d2-68b7-460e-bf5e-426844743c51_large/fresh-beetroot-display-stockcake.jpg',
+      'https://images.stockcake.com/public/6/b/a/6ba4e0d2-68b7-460e-bf5e-426844743c51_medium/fresh-beetroot-display-stockcake.jpg?w=800&q=75',
     icon: '🫚',
   },
   {
@@ -472,7 +412,7 @@ const vegetables = [
     description:
       'Premium pea genetics focused on sweetness, pod fill and disease resistance for reliable yield season after season.',
     image:
-      'https://images.stockcake.com/public/6/2/2/622170f9-2125-4590-bf65-2fe040c21886_large/fresh-green-peas-stockcake.jpg',
+      'https://images.stockcake.com/public/6/2/2/622170f9-2125-4590-bf65-2fe040c21886_medium/fresh-green-peas-stockcake.jpg?w=800&q=75',
     icon: '🫛',
   },
   {
@@ -480,136 +420,69 @@ const vegetables = [
     description:
       'Onion varieties with strong skins, firm bulbs and reliable storage performance for demanding supply chains.',
     image:
-      'https://images.stockcake.com/public/3/9/a/39a89dc6-2e4b-42d3-b811-aef3933e9f58_large/illuminated-onion-roots-stockcake.jpg',
+      'https://images.stockcake.com/public/3/9/a/39a89dc6-2e4b-42d3-b811-aef3933e9f58_medium/illuminated-onion-roots-stockcake.jpg?w=800&q=75',
     icon: '🧅',
   },
 ];
 
-// FloatingCard component (memoized with hover effects)
-const FloatingCard = memo(({ product, progress, reducedMotion }) => {
-  const cardRef = useRef(null);
-  const [hover, setHover] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const cardProgress = useMemo(() => clamp((progress - 0.25 - product.stagger) / (0.75 - product.stagger), 0, 1), [progress, product.stagger]);
-  const eased = useMemo(() => easeOutBack(cardProgress), [cardProgress]);
-
-  useEffect(() => {
-    if (!cardRef.current || reducedMotion) return;
-
-    const vw = window.innerWidth / 100;
-    const vh = window.innerHeight / 100;
-
-    const tx = product.startPos.x * vw * (1 - eased);
-    const ty = product.startPos.y * vh * (1 - eased);
-    const scale = lerp(TOKENS.animation.startScale, TOKENS.animation.endScale, eased);
-    const rotation = product.rotation * (1 - eased);
-    const opacity = eased;
-
-    let tiltX = 0, tiltY = 0;
-    if (hover && window.innerWidth >= 768) {
-      tiltX = (mousePos.y - 0.5) * -TOKENS.animation.hoverTilt;
-      tiltY = (mousePos.x - 0.5) * TOKENS.animation.hoverTilt;
-    }
-
-    const hoverLift = hover ? -6 : 0;
-    const hoverScale = hover ? 1.06 : 1;
-
-    cardRef.current.style.transform = `
-      translate3d(calc(-50% + ${tx}px), calc(-50% + ${ty + hoverLift}px), 0)
-      scale(${scale * hoverScale})
-      rotateZ(${rotation}deg)
-      rotateX(${tiltX}deg)
-      rotateY(${tiltY}deg)
-    `;
-    cardRef.current.style.opacity = opacity;
-
-    const shadowAlpha = eased * 0.28;
-    cardRef.current.style.boxShadow = `
-      0 30px 70px ${product.color.replace('0.22', shadowAlpha)},
-      0 10px 30px rgba(0, 0, 0, 0.4)
-    `;
-  }, [eased, hover, mousePos, product, reducedMotion]);
-
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: (e.clientX - rect.left) / rect.width,
-      y: (e.clientY - rect.top) / rect.height,
-    });
-  };
-
+// FloatingCard component (memoized with hover effects) - OPTIMIZED FOR MOBILE
+// Simple Product Card - No Animation
+const ProductCard = memo(({ product }: { product: typeof products[0] }) => {
   const Icon = product.icon;
-
-  const animatedStyle = {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    width: 'clamp(280px, 22vw, 340px)',
-    padding: 'clamp(28px, 3vw, 40px)',
-    background: 'rgba(10, 10, 10, 0.45)',
-    backdropFilter: 'blur(12px) saturate(120%)',
-    border: '1px solid rgba(126, 246, 161, 0.12)',
-    borderRadius: '24px',
-    willChange: 'transform, opacity',
-    transition: 'box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-    transformStyle: 'preserve-3d',
-    cursor: 'pointer',
-  };
-
-  const staticStyle = {
-    position: 'relative',
-    left: 'auto',
-    top: 'auto',
-    width: 'min(360px, 90vw)',
-    margin: '12px auto',
-    padding: '28px',
-    background: 'rgba(10, 10, 10, 0.65)',
-    backdropFilter: 'blur(8px)',
-    border: '1px solid rgba(126, 246, 161, 0.2)',
-    borderRadius: '20px',
-    cursor: 'default',
-    transform: 'none',
-    opacity: 1,
-    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.4)',
-  };
-
-  const interactiveHandlers = reducedMotion ? {} : {
-    onMouseEnter: () => setHover(true),
-    onMouseLeave: () => setHover(false),
-    onMouseMove: handleMouseMove,
-  };
 
   return (
     <div
-      ref={cardRef}
-      {...interactiveHandlers}
-      className="floating-card"
-      style={reducedMotion ? staticStyle : animatedStyle}
+      style={{
+        padding: '24px',
+        background: 'rgba(10, 10, 10, 0.65)',
+        backdropFilter: 'blur(6px)',
+        border: '1px solid rgba(126, 246, 161, 0.2)',
+        borderRadius: '20px',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+        flex: '0 0 320px',
+        minWidth: '280px',
+        maxWidth: '360px',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'scale(1.03)';
+        e.currentTarget.style.borderColor = 'rgba(126, 246, 161, 0.4)';
+        e.currentTarget.style.boxShadow = '0 8px 32px rgba(126, 246, 161, 0.15)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.borderColor = 'rgba(126, 246, 161, 0.2)';
+        e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.3)';
+      }}
     >
-      <div style={{ 
-        fontSize: 'clamp(48px, 5vw, 64px)',
-        marginBottom: '16px',
-        color: TOKENS.colors.accent,
-        filter: 'drop-shadow(0 0 20px rgba(126, 246, 161, 0.4))',
-      }}>
-        <Icon size="1em" strokeWidth={1.5} />
+      <div
+        style={{
+          fontSize: '48px',
+          marginBottom: '16px',
+          color: TOKENS.colors.accent,
+        }}
+      >
+        <Icon size="48px" strokeWidth={1.5} />
       </div>
-      <h3 style={{
-        fontSize: 'clamp(24px, 2.2vw, 32px)',
-        fontWeight: 600,
-        color: TOKENS.colors.text,
-        marginBottom: '8px',
-        letterSpacing: '-0.02em',
-      }}>
+      <h3
+        style={{
+          fontSize: '24px',
+          fontWeight: 600,
+          color: TOKENS.colors.text,
+          marginBottom: '8px',
+          letterSpacing: '-0.02em',
+        }}
+      >
         {product.title}
       </h3>
-      <p style={{
-        fontSize: 'clamp(14px, 1.1vw, 16px)',
-        color: TOKENS.colors.textSecondary,
-        marginBottom: '20px',
-      }}>
+      <p
+        style={{
+          fontSize: '14px',
+          color: TOKENS.colors.textSecondary,
+          marginBottom: '20px',
+          lineHeight: '1.5',
+        }}
+      >
         {product.trait}
       </p>
       <button
@@ -624,8 +497,8 @@ const FloatingCard = memo(({ product, progress, reducedMotion }) => {
           cursor: 'pointer',
           transition: 'transform 0.2s',
         }}
-        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
       >
         Learn More
       </button>
@@ -634,11 +507,7 @@ const FloatingCard = memo(({ product, progress, reducedMotion }) => {
 });
 
 const VegetableCard = memo(({ veg, index }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay: index * 0.1, duration: 0.5 }}
+  <div
     style={{
       position: 'relative',
       height: '500px',
@@ -647,7 +516,6 @@ const VegetableCard = memo(({ veg, index }) => (
       cursor: 'pointer',
       background: '#000',
     }}
-    whileHover={{ scale: 1.02 }}
   >
     <img
       src={veg.image}
@@ -692,7 +560,7 @@ const VegetableCard = memo(({ veg, index }) => (
       <h3 style={{ fontSize: '32px', fontWeight: 700, marginBottom: '12px' }}>{veg.name}</h3>
       <p style={{ fontSize: '15px', lineHeight: 1.5, color: 'rgba(255,255,255,0.9)' }}>{veg.description}</p>
     </div>
-  </motion.div>
+  </div>
 ));
 
 // ============================================================================
@@ -947,14 +815,7 @@ export default function WinSeeds() {
           position: 'relative',
         }}
       >
-      {/* Noise texture overlay */}
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence baseFrequency=\'0.9\' /%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.04\'/%3E%3C/svg%3E")',
-        pointerEvents: 'none',
-        zIndex: 100,
-      }} />
+
 
       {/* Top Nav */}
       <nav style={{
@@ -1039,103 +900,47 @@ export default function WinSeeds() {
         </FadeInOnScroll>
       </section>
 
-      {/* Products Section */}
+      {/* Products Section - Simple Horizontal Carousel */}
       <section
         id="products"
         ref={productsRef}
         style={{
-          minHeight: typeof window !== 'undefined' && window.innerWidth < 768 ? 'auto' : `${TOKENS.animation.stickyHeight}vh`,
           position: 'relative',
+          minHeight: 'auto',
+          padding: '64px 0 48px 0',
           background: '#050505',
         }}
       >
-        {typeof window !== 'undefined' && window.innerWidth >= 768 && (
-          <>
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%) scale(${Math.max(0.1, 1 - scrollProgress * 1.2)})`,
-              opacity: Math.max(0, 1 - scrollProgress * 1.5),
-              fontSize: 'clamp(60px, 12vw, 180px)',
-              fontWeight: 200,
-              letterSpacing: '-0.04em',
-              textAlign: 'center',
-              lineHeight: 1.1,
-              pointerEvents: 'none',
-              whiteSpace: 'nowrap',
-              zIndex: 10,
-              willChange: 'transform, opacity',
-            }}>
-              Our
-              <br />
-              <span style={{ color: TOKENS.colors.accent, fontWeight: 300 }}>Premium</span>
-              <br />
-              Collection
-            </div>
-            <div style={{
-              position: 'sticky',
-              top: 0,
-              height: '100vh',
+        <div style={{ maxWidth: '1400px', margin: '0 auto', paddingLeft: '20px', paddingRight: '20px' }}>
+          <h2
+            style={{
+              fontSize: 'clamp(32px, 5vw, 48px)',
+              fontWeight: 700,
+              marginBottom: '32px',
+              color: '#fff',
+              letterSpacing: '-0.02em',
+            }}
+          >
+            Our <span style={{ color: TOKENS.colors.accent }}>Premium</span> Collection
+          </h2>
+          
+          <div
+            style={{
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-            }}>
-              {products.map(product => (
-                <FloatingCard
-                  key={product.id}
-                  product={product}
-                  progress={scrollProgress}
-                  reducedMotion={reducedMotion}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        {typeof window !== 'undefined' && window.innerWidth < 768 && (
-          <>
-            <h2
-              style={{
-                fontSize: '28px',
-                fontWeight: 700,
-                margin: '24px 16px 12px',
-                color: '#fff',
-              }}
-            >
-              <span>Our </span>
-              <span style={{ color: TOKENS.colors.accent }}>Premium</span>{' '}
-              <span>Collection</span>
-            </h2>
-            <div
-              style={{
-                display: 'flex',
-                overflowX: 'auto',
-                overflowY: 'hidden',
-                gap: '12px',
-                padding: '0 16px 32px',
-                WebkitOverflowScrolling: 'touch',
-              }}
-            >
-              {products.map(product => (
-                <div
-                  key={product.id}
-                  style={{
-                    flex: '0 0 80vw',
-                    maxWidth: '320px',
-                  }}
-                >
-                  <FloatingCard
-                    product={product}
-                    progress={1}
-                    reducedMotion={true}
-                  />
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+              overflowX: 'auto',
+              overflowY: 'hidden',
+              gap: '20px',
+              paddingBottom: '16px',
+              WebkitOverflowScrolling: 'touch',
+              scrollSnapType: 'x mandatory',
+              scrollBehavior: 'smooth',
+            }}
+          >
+            {products.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Vegetable Range Section */}

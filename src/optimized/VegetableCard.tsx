@@ -1,5 +1,4 @@
 import { memo, useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
 import LazyImage from './LazyImage';
 
 interface VegetableCardProps {
@@ -32,12 +31,8 @@ const VegetableCard = memo(({ veg, index }: VegetableCardProps) => {
   }, []);
 
   return (
-    <motion.div
+    <div
       ref={cardRef}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '50px' }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
       style={{
         position: 'relative',
         height: '500px',
@@ -47,7 +42,6 @@ const VegetableCard = memo(({ veg, index }: VegetableCardProps) => {
         background: 'rgba(10,10,10,0.8)',
         contain: 'layout style paint',
       } as React.CSSProperties}
-      whileHover={{ scale: 1.02 }}
     >
       {inView && (
         <>
@@ -78,7 +72,7 @@ const VegetableCard = memo(({ veg, index }: VegetableCardProps) => {
           </div>
         </>
       )}
-    </motion.div>
+    </div>
   );
 });
 

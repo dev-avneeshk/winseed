@@ -5,19 +5,59 @@
     "Segoe UI", sans-serif;
 }
 
-/* Performance Optimizations */
-.floating-card { 
-  contain: layout style paint; 
+/* ============================================
+   CRITICAL PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* Hardware-Accelerated Scrolling */
+html, body {
+  scroll-behavior: smooth;
+  will-change: scroll-position;
+  overscroll-behavior-y: contain;
 }
 
-section { 
-  contain: layout style; 
-  content-visibility: auto; 
+.carousel-row, .horizontal-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+}
+
+/* Performance: Heavy optimization for Lighthouse */
+
+/* 1. Content Visibility - Skip rendering off-screen sections */
+section {
+  content-visibility: auto;
+  contain: layout style paint;
+}
+
+/* 2. Key performance elements */
+.floating-card { 
+  contain: layout style paint;
+  will-change: auto; /* Only enable on interaction */
 }
 
 nav { 
   contain: layout style paint; 
   will-change: transform; 
+}
+
+img {
+  /* Prevent layout shift while images load */
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 3. Reduce expensive effects on mobile */
+@media (max-width: 768px) {
+  /* Disable expensive filters on mobile */
+  .backdrop-blur {
+    backdrop-filter: none !important;
+  }
+  
+  /* Simplify animations on mobile */
+  section {
+    animation: none !important;
+  }
 }
 
 /* Modal Overlay - Ensure it sits above everything */
