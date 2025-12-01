@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/(.*\\.(jpg|jpeg|gif|png|webp|svg|woff|woff2|ttf|eot|otf|mp4|webm))",
+      "source": "/static/**",
       "headers": [
         {
           "key": "Cache-Control",
@@ -10,20 +10,11 @@
       ]
     },
     {
-      "source": "/",
+      "source": "/:path*",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/(.*\\.js|.*\\.css)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
         }
       ]
     }
