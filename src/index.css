@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+/* Performance Optimizations */
+.floating-card { 
+  contain: layout style paint; 
+}
+
+section { 
+  contain: layout style; 
+  content-visibility: auto; 
+}
+
+nav { 
+  contain: layout style paint; 
+  will-change: transform; 
+}
+
+/* Modal Overlay - Ensure it sits above everything */
+.fixed.inset-0.z-50 {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
