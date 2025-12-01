@@ -1043,48 +1043,99 @@ export default function WinSeeds() {
       <section
         id="products"
         ref={productsRef}
-        style={{ minHeight: `${TOKENS.animation.stickyHeight}vh`, position: 'relative' }}
+        style={{
+          minHeight: typeof window !== 'undefined' && window.innerWidth < 768 ? 'auto' : `${TOKENS.animation.stickyHeight}vh`,
+          position: 'relative',
+          background: '#050505',
+        }}
       >
-        <div style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
-        }}>
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: `translate(-50%, -50%) scale(${Math.max(0.1, 1 - scrollProgress * 1.2)})`,
-            opacity: Math.max(0, 1 - scrollProgress * 1.5),
-            fontSize: 'clamp(60px, 12vw, 180px)',
-            fontWeight: 200,
-            letterSpacing: '-0.04em',
-            textAlign: 'center',
-            lineHeight: 1.1,
-            pointerEvents: 'none',
-            whiteSpace: 'nowrap',
-            zIndex: 10,
-            willChange: 'transform, opacity',
-          }}>
-            Our
-            <br />
-            <span style={{ color: TOKENS.colors.accent, fontWeight: 300 }}>Premium</span>
-            <br />
-            Collection
-          </div>
-          {products.map(product => (
-            <FloatingCard
-              key={product.id}
-              product={product}
-              progress={scrollProgress}
-              reducedMotion={reducedMotion}
-            />
-          ))}
-        </div>
+        {typeof window !== 'undefined' && window.innerWidth >= 768 && (
+          <>
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: `translate(-50%, -50%) scale(${Math.max(0.1, 1 - scrollProgress * 1.2)})`,
+              opacity: Math.max(0, 1 - scrollProgress * 1.5),
+              fontSize: 'clamp(60px, 12vw, 180px)',
+              fontWeight: 200,
+              letterSpacing: '-0.04em',
+              textAlign: 'center',
+              lineHeight: 1.1,
+              pointerEvents: 'none',
+              whiteSpace: 'nowrap',
+              zIndex: 10,
+              willChange: 'transform, opacity',
+            }}>
+              Our
+              <br />
+              <span style={{ color: TOKENS.colors.accent, fontWeight: 300 }}>Premium</span>
+              <br />
+              Collection
+            </div>
+            <div style={{
+              position: 'sticky',
+              top: 0,
+              height: '100vh',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden',
+            }}>
+              {products.map(product => (
+                <FloatingCard
+                  key={product.id}
+                  product={product}
+                  progress={scrollProgress}
+                  reducedMotion={reducedMotion}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {typeof window !== 'undefined' && window.innerWidth < 768 && (
+          <>
+            <h2
+              style={{
+                fontSize: '28px',
+                fontWeight: 700,
+                margin: '24px 16px 12px',
+                color: '#fff',
+              }}
+            >
+              <span>Our </span>
+              <span style={{ color: TOKENS.colors.accent }}>Premium</span>{' '}
+              <span>Collection</span>
+            </h2>
+            <div
+              style={{
+                display: 'flex',
+                overflowX: 'auto',
+                overflowY: 'hidden',
+                gap: '12px',
+                padding: '0 16px 32px',
+                WebkitOverflowScrolling: 'touch',
+              }}
+            >
+              {products.map(product => (
+                <div
+                  key={product.id}
+                  style={{
+                    flex: '0 0 80vw',
+                    maxWidth: '320px',
+                  }}
+                >
+                  <FloatingCard
+                    product={product}
+                    progress={1}
+                    reducedMotion={true}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </section>
 
       {/* Vegetable Range Section */}
@@ -1099,10 +1150,15 @@ export default function WinSeeds() {
       >
         <FadeInOnScroll>
           <h2 style={{
-            fontSize: 'clamp(40px, 6vw, 72px)',
+            fontSize: 'clamp(32px, 7vw, 72px)',
             fontWeight: 700,
-            marginBottom: '24px',
+            marginBottom: '16px',
             color: '#000',
+            textAlign: 'center',
+            wordBreak: 'break-word',
+            maxWidth: '94vw',
+            marginLeft: 'auto',
+            marginRight: 'auto',
           }}>
             <span style={{ color: '#000' }}>Our</span>{' '}
             <span style={{ color: TOKENS.colors.accent }}>Vegetable</span>{' '}
@@ -1114,25 +1170,28 @@ export default function WinSeeds() {
           <div
             style={{
               width: '100%',
-              maxWidth: '1600px',
-              margin: '0 auto',
               overflowX: 'auto',
-              paddingBottom: '8px',
+              overflowY: 'hidden',
               WebkitOverflowScrolling: 'touch',
+              paddingBottom: '16px',
+              margin: '0 auto',
             }}
           >
             <div
               style={{
                 display: 'flex',
-                gap: '24px',
-                padding: '8px 4px',
+                flexDirection: 'row',
+                gap: '18px',
+                minHeight: '320px',
+                alignItems: 'flex-start',
               }}
             >
               {vegetables.map((veg, i) => (
                 <div
                   key={veg.name}
                   style={{
-                    flex: '0 0 min(340px, 80vw)',
+                    flex: '0 0 80vw',
+                    maxWidth: '340px',
                   }}
                 >
                   <VegetableCardOptimized veg={veg} index={i} />
@@ -1144,82 +1203,98 @@ export default function WinSeeds() {
       </section>
 
       {/* Breeding Section */}
-      <section id="breeding" ref={breedingRef} style={{
-        minHeight: '100vh',
-        padding: '120px 40px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <div style={{ 
-          maxWidth: '1200px', 
-          display: 'grid', 
-          gridTemplateColumns: '1fr 1fr', 
-          gap: '80px', 
-          alignItems: 'center' 
-        }}>
-          <div>
-            <FadeInOnScroll>
-              <h2 style={{
-                fontSize: 'clamp(42px, 6.5vw, 80px)',
+      <section
+        id="breeding"
+        ref={breedingRef}
+        style={{
+          padding: '72px 20px',
+          background: '#050505',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1024px',
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: '1.1fr 0.9fr',
+            gap: '64px',
+            alignItems: 'center',
+          }}
+        >
+          {/* Left copy block */}
+          <div
+            style={{
+              color: TOKENS.colors.text,
+            }}
+          >
+            <h2
+              style={{
+                fontSize: 'clamp(32px, 5.5vw, 52px)',
                 fontWeight: 300,
-                marginBottom: '32px',
+                marginBottom: '16px',
                 letterSpacing: '-0.03em',
-                lineHeight: 1.1,
-                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-              }}>
-                <span style={{ color: TOKENS.colors.text }}>Plant</span>
-                <br />
-                <span style={{ color: TOKENS.colors.accent, fontWeight: 400 }}>Breeder</span>
-              </h2>
-            </FadeInOnScroll>
-            <FadeInOnScroll delay={0.1}>
-              <div>
-                <p style={{
-                  fontSize: '18px',
-                  lineHeight: 1.8,
-                  color: TOKENS.colors.textSecondary,
-                  marginBottom: '24px',
-                }}>
-                  Winseed is a plant breeder, producer, and distributor of quality vegetable seeds, aiming to be a global leader in a carefully-selected portfolio.
-                </p>
-                <p style={{
-                  fontSize: '18px',
-                  lineHeight: 1.8,
-                  color: TOKENS.colors.textSecondary,
-                }}>
-                  Our flagship products include carrots, beetroot and peas, with our activities mostly focused on these products. Several other products including radish and broad beans are also developed and produced for selected global markets.
-                </p>
-              </div>
-            </FadeInOnScroll>
+              }}
+            >
+              <span style={{ color: '#fff' }}>Plant</span>{' '}
+              <span style={{ color: TOKENS.colors.accent }}>Breeder</span>
+            </h2>
+            <p
+              style={{
+                fontSize: '16px',
+                lineHeight: 1.7,
+                color: TOKENS.colors.textSecondary,
+                maxWidth: '540px',
+              }}
+            >
+              Winseed is a plant breeder, producer, and distributor of quality vegetable
+              seeds, aiming to be a global leader in a carefully-selected portfolio.
+            </p>
+            <p
+              style={{
+                fontSize: '16px',
+                lineHeight: 1.7,
+                color: TOKENS.colors.textSecondary,
+                marginTop: '16px',
+                maxWidth: '540px',
+              }}
+            >
+              Our flagship products include carrots, beetroot and peas, with our activities
+              mostly focused on these products. Several other products including radish and
+              broad beans are also developed and produced for selected markets.
+            </p>
           </div>
-          <FadeInOnScroll delay={0.15}>
-            <div style={{
-              background: 'rgba(10, 10, 10, 0.45)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(126, 246, 161, 0.12)',
+
+          {/* Right stats card */}
+          <div
+            style={{
+              background: 'rgba(10, 10, 10, 0.7)',
               borderRadius: '24px',
-              padding: '60px',
+              border: '1px solid rgba(126, 246, 161, 0.25)',
+              padding: '40px 32px',
               textAlign: 'center',
-            }}>
-              <Leaf size={80} color={TOKENS.colors.accent} strokeWidth={1} />
-              <h3 style={{ 
-                fontSize: '36px', 
-                margin: '24px 0 16px', 
+            }}
+          >
+            <Leaf size={64} color={TOKENS.colors.accent} strokeWidth={1.2} />
+            <h3
+              style={{
+                fontSize: '32px',
+                margin: '24px 0 8px',
                 fontWeight: 600,
                 color: TOKENS.colors.text,
-              }}>
-                15+ Years
-              </h3>
-              <p style={{ 
-                color: TOKENS.colors.textSecondary,
-                fontSize: '16px',
+              }}
+            >
+              15+ Years
+            </h3>
+            <p
+              style={{
+                fontSize: '15px',
                 lineHeight: 1.6,
-              }}>
-                Of breeding excellence and genetic refinement
-              </p>
-            </div>
-          </FadeInOnScroll>
+                color: TOKENS.colors.textSecondary,
+              }}
+            >
+              Of breeding excellence and genetic refinement
+            </p>
+          </div>
         </div>
       </section>
 
